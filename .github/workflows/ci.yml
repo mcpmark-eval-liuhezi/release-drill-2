@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trivial check
+        run: |
+          echo "Running trivial CI check for release-drill-2"
+          echo "Repository is present and README exists:" && ls -la
+
+      - name: Produce build artifact
+        run: |
+          echo "release-drill-2 CI run" > build-output.txt
+          echo "generated at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> build-output.txt
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: drill-build-output
+          path: build-output.txt
